@@ -3,21 +3,19 @@
 <table>
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Designed by</th>
     </tr>
   </thead>
 
   <tbody>
     <% @languages.each do |language| %>
       <tr>
-        <td><%= link_to 'Show', language %></td>
-        <td><%= link_to 'Edit', edit_language_path(language) %></td>
-        <td><%= link_to 'Destroy', language, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= language.name %></td>
+        <td></td>
+        <td></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Language', new_language_path %>
