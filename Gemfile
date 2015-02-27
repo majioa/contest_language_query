@@ -31,6 +31,7 @@ gem 'simple_form'
 group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'database_cleaner'
 end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
