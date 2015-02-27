@@ -8,4 +8,12 @@ class Language < ActiveRecord::Base
     end.flatten
     where name: permuted
   }
+
+  scope :by_author_tokens, ->( tokens ) {
+    joins(:authors).merge(Author.by_tokens( tokens ) )
+  }
+
+  scope :by_author_tokens, ->( tokens ) {
+    joins(:authors).merge(Author.by_tokens( tokens ) )
+  }
 end
