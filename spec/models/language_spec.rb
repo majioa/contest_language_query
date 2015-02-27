@@ -12,6 +12,10 @@ RSpec.describe Language, type: :model do
     { name: "Name Lastname" }
   }
 
+  let( :type_attributes ) {
+    { name: "Type" }
+  }
+
   describe "search by tokens" do
     before :each do
       @languages = Language.create! language_attributes
@@ -31,6 +35,12 @@ RSpec.describe Language, type: :model do
       @languages[0].authors.create! author_attributes
       tokens = [ 'Name Lastname' ]
       expect( Language.by_author_tokens tokens ).to eq( [ @languages[0] ] )
+    end
+
+    it "complex token for language_type relation" do
+      @languages[0].language_types.create! type_attributes
+      tokens = [ 'Type' ]
+      expect( Language.by_language_type_tokens tokens ).to eq( [ @languages[0] ] )
     end
   end
 end

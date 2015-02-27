@@ -13,7 +13,7 @@ class Language < ActiveRecord::Base
     joins(:authors).merge(Author.by_tokens( tokens ) )
   }
 
-  scope :by_author_tokens, ->( tokens ) {
-    joins(:authors).merge(Author.by_tokens( tokens ) )
+  scope :by_language_type_tokens, ->( tokens ) {
+    joins(:language_types).merge(LanguageType.by_tokens( tokens ) )
   }
 end
