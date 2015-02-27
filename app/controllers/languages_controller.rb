@@ -1,4 +1,6 @@
 class LanguagesController < ApplicationController
+  include LanguagesHelper
+
   # GET /languages
   # GET /languages.json
   def index
@@ -21,6 +23,6 @@ class LanguagesController < ApplicationController
   end
 
   def filter_tokens
-    filter_params.to_h[ 'request' ].split( /\s+/ )
+    tokenize filter_params.to_h[ 'request' ]
   end
 end
