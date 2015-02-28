@@ -42,5 +42,12 @@ RSpec.describe Language, type: :model do
       tokens = [ 'Type' ]
       expect( Language.by_language_type_tokens tokens ).to eq( [ @languages[0] ] )
     end
+
+    it "complex token for both author, language_type relations" do
+      @languages[0].authors.create! author_attributes
+      @languages[0].language_types.create! type_attributes
+      tokens = [ 'Type', 'Name Lastname' ]
+      expect( Language.by_tokens_with_relations tokens ).to eq( [ @languages[0] ] )
+    end
   end
 end

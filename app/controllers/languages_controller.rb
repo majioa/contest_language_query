@@ -10,7 +10,7 @@ class LanguagesController < ApplicationController
   # GET /filter
   # GET /filter.json
   def filter
-    @languages = Language.by_tokens filter_tokens
+    @languages = Language.by_tokens_with_relations filter_tokens
 
     render :index
   end

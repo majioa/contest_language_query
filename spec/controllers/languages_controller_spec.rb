@@ -9,6 +9,14 @@ RSpec.describe LanguagesController, type: :controller do
     [ { name: "New Lang" }, { name: "Other Lang" } ]
   }
 
+  let(:author_attributes) {
+    { name: "Name Lastname" }
+  }
+
+  let(:type_attributes) {
+    { name: "Type" }
+  }
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # LanguagesController. Be sure to keep this updated too.
@@ -39,6 +47,25 @@ RSpec.describe LanguagesController, type: :controller do
     it "reversed words request" do
       get :filter, { request: '"Lang New"' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[0] ] )
+    end
+
+    it "match for author 'Name Lastname'" do
+      @languages[0].authors.create! author_attributes
+      get :filter, { request: '"Other Lang" "Name Lastname"' }, valid_session
+      expect( assigns( :languages ) ).to eq( [ @languages[ 1 ] ] )
+    end
+
+    it "match for type 'Type'" do
+      @languages[0].language_types.create! type_attributes
+      get :filter, { request: '"Other Lang" Type' }, valid_session
+      expect( assigns( :languages ) ).to eq( [ @languages[ 1 ] ] )
+    end
+
+    it "match for author 'Name Lastname', and type 'Type'" do
+      @languages[0].authors.create! author_attributes
+      @languages[0].language_types.create! type_attributes
+      get :filter, { request: '"Name Lastname" Type' }, valid_session
+      expect( assigns( :languages ) ).to eq( [ @languages[ 0 ] ] )
     end
 
   end
