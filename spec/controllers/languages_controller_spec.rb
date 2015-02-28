@@ -17,6 +17,10 @@ RSpec.describe LanguagesController, type: :controller do
     { name: "Type" }
   }
 
+  let(:other_type_attributes) {
+    { name: "Type1" }
+  }
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # LanguagesController. Be sure to keep this updated too.
@@ -65,6 +69,16 @@ RSpec.describe LanguagesController, type: :controller do
       @languages[0].authors.create! author_attributes
       @languages[0].language_types.create! type_attributes
       get :filter, { request: '"Name Lastname" Type' }, valid_session
+      expect( assigns( :languages ) ).to eq( [ @languages[ 0 ] ] )
+    end
+
+    it "match for author 'Name Lastname', and type not 'Type1'" do
+      @languages[ 0 ].language_types.create! type_attributes
+      @languages[ 1 ].language_types.create! other_type_attributes
+      author = Author.create! author_attributes
+      @languages[ 0 ].authors << author
+      @languages[ 1 ].authors << author
+      get :filter, { request: '"Name Lastname" -Type1' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 0 ] ] )
     end
 

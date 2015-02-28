@@ -11,7 +11,25 @@ RSpec.describe Author, type: :model do
     it "complex token" do
       authors = Author.create author_attributes
       tokens = [ 'Name Lastname' ]
-      expect( Author.by_tokens tokens ).to eq( [ authors[0] ] )
+      expect( Author.by_tokens tokens ).to eq( [ authors[ 0 ] ] )
+    end
+
+    it "negative token" do
+      authors = Author.create author_attributes
+      tokens = [ '-Name Lastname' ]
+      expect( Author.by_tokens tokens ).to eq( [ authors[ 1 ] ] )
+    end
+
+    it "positive and negative token" do
+      authors = Author.create author_attributes
+      tokens = [ 'Other Lastname', '-Name Lastname' ]
+      expect( Author.by_tokens tokens ).to eq( [ authors[ 1 ] ] )
+    end
+
+    it "negative token with noise" do
+      authors = Author.create author_attributes
+      tokens = [ 'Another Lastname', '-Name Lastname' ]
+      expect( Author.by_tokens tokens ).to eq( [ authors[ 1 ] ] )
     end
   end
 end

@@ -8,10 +8,28 @@ RSpec.describe LanguageType, type: :model do
       [ { name: "Type" }, { name: "Type1" } ]
     }
 
-    it "complex token" do
+    it "just token" do
       types = LanguageType.create type_attributes
       tokens = [ 'Type' ]
-      expect( LanguageType.by_tokens tokens ).to eq( [ types[0] ] )
+      expect( LanguageType.by_tokens tokens ).to eq( [ types[ 0 ] ] )
+    end
+
+    it "negative token" do
+      types = LanguageType.create type_attributes
+      tokens = [ '-Type' ]
+      expect( LanguageType.by_tokens tokens ).to eq( [ types[ 1 ] ] )
+    end
+
+    it "positive and negative tokens" do
+      types = LanguageType.create type_attributes
+      tokens = [ 'Type1', '-Type' ]
+      expect( LanguageType.by_tokens tokens ).to eq( [ types[ 1 ] ] )
+    end
+
+    it "negative tokens with noise" do
+      types = LanguageType.create type_attributes
+      tokens = [ 'Type11', '-Type' ]
+      expect( LanguageType.by_tokens tokens ).to eq( [ types[ 1 ] ] )
     end
   end
 end
