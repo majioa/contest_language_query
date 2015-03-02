@@ -1,18 +1,40 @@
 module App::TokenSupport
-  def scope_by_token tokens
-    tokens_pos = tokens.select {|t| t =~ /^[^-]/ }
-    tokens_neg = ( tokens - tokens_pos ).map {|t| t[1..-1] }
+  def find_by_masks tokens
+    where( arel_table[ :name ].matches_any( tokens ) )
+  end
 
-    # selector for positive and negative tokens
+  def find_by_not_masks tokens
+    where.not( arel_table[ :name ].matches_all( tokens ) )
+  end
+
+  def find_by_tokens tokens, merge = false
+    tokens_pos = tokens.select {|t| t =~ /^[^-]/ }
+    masks_pos = tokens_pos.map {|t| "%#{t}%" }
+    masks_neg = ( tokens - tokens_pos ).map {|t| "%#{t[1..-1]}%" }
+
+    # selector for positive and negative masks
     if tokens.empty?
       all
-    elsif tokens_neg.empty?
-      where( name: tokens_pos )
-    elsif tokens_pos.empty?
-      where.not( name: tokens_neg )
+    elsif masks_neg.empty?
+      find_by_masks( masks_pos )
+    elsif masks_pos.empty?
+      find_by_not_masks( masks_neg )
     else
-      where( arel_table[ :name ].in( tokens_pos )
-        .or( arel_table[ :name ].not_in( tokens_neg ) ) )
+      if merge
+        # join by method AND
+        find_by_masks( masks_pos ).merge( find_by_not_masks( masks_neg ) )
+      else
+        # joins by method OR
+        scopes = [ find_by_masks( masks_pos ), find_by_not_masks( masks_neg ) ]
+        where( wheres_any( *scopes ) )
+      end
+    end
+  end
+
+  def wheres_any *scopes
+    init = scopes.shift.where_values.reduce {|s,v| s.and(v) }
+    scopes.reduce( init ) do |s,v|
+      s.or( v.where_values.reduce {|s,v| s.and(v) } )
     end
   end
 end

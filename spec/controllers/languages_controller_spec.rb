@@ -6,7 +6,7 @@ RSpec.describe LanguagesController, type: :controller do
   # Language. As you add validations to Language, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    [ { name: "New Lang" }, { name: "Other Lang" } ]
+    [ { name: "New Lang" }, { name: "Other Lango" } ]
   }
 
   let(:author_attributes) {
@@ -40,8 +40,8 @@ RSpec.describe LanguagesController, type: :controller do
     end
 
     it "sample request" do
-      get :filter, { request: '"New Lang"' }, valid_session
-      expect( assigns( :languages ) ).to eq( [ @languages[0] ] )
+      get :filter, { request: 'New Lang' }, valid_session
+      expect( assigns( :languages ) ).to eq( @languages )
     end
 
     it "omitted param :request" do
@@ -49,19 +49,19 @@ RSpec.describe LanguagesController, type: :controller do
     end
 
     it "reversed words request" do
-      get :filter, { request: '"Lang New"' }, valid_session
-      expect( assigns( :languages ) ).to eq( [ @languages[0] ] )
+      get :filter, { request: 'Lang New' }, valid_session
+      expect( assigns( :languages ) ).to eq( @languages )
     end
 
     it "match for author 'Name Lastname'" do
       @languages[0].authors.create! author_attributes
-      get :filter, { request: '"Other Lang" "Name Lastname"' }, valid_session
+      get :filter, { request: 'Other Lango "Name Lastname"' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 1 ] ] )
     end
 
     it "match for type 'Type'" do
       @languages[0].language_types.create! type_attributes
-      get :filter, { request: '"Other Lang" Type' }, valid_session
+      get :filter, { request: '"Other Lango" Type' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 1 ] ] )
     end
 

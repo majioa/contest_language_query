@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe LanguageType, type: :model do
   it { should have_and_belong_to_many :languages }
 
-  context "search by tokens" do
+  context "search by" do
     let( :type_attributes ) {
-      [ { name: "Type" }, { name: "Type1" } ]
+      [ { name: "Type" }, { name: "Typo1" } ]
     }
 
     it "just token" do
@@ -22,13 +22,13 @@ RSpec.describe LanguageType, type: :model do
 
     it "positive and negative tokens" do
       types = LanguageType.create type_attributes
-      tokens = [ 'Type1', '-Type' ]
+      tokens = [ 'Typo1', '-Type' ]
       expect( LanguageType.by_tokens tokens ).to eq( [ types[ 1 ] ] )
     end
 
     it "negative tokens with noise" do
       types = LanguageType.create type_attributes
-      tokens = [ 'Type11', '-Type' ]
+      tokens = [ 'Typo11', '-Type' ]
       expect( LanguageType.by_tokens tokens ).to eq( [ types[ 1 ] ] )
     end
   end
