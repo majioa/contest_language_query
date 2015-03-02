@@ -50,17 +50,17 @@ RSpec.describe LanguagesController, type: :controller do
 
     it "reversed words request" do
       get :filter, { request: 'Lang New' }, valid_session
-      expect( assigns( :languages ) ).to eq( @languages )
+      expect( assigns( :languages ) ).to eq( [ @languages[ 0 ] ] )
     end
 
     it "match for author 'Name Lastname'" do
-      @languages[0].authors.create! author_attributes
+      @languages[1].authors.create! author_attributes
       get :filter, { request: 'Other Lango "Name Lastname"' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 1 ] ] )
     end
 
     it "match for type 'Type'" do
-      @languages[0].language_types.create! type_attributes
+      @languages[1].language_types.create! type_attributes
       get :filter, { request: '"Other Lango" Type' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 1 ] ] )
     end
@@ -74,6 +74,7 @@ RSpec.describe LanguagesController, type: :controller do
 
     it "match for author 'Name Lastname', and type not 'Type1'" do
       @languages[ 0 ].language_types.create! type_attributes
+      @languages[ 1 ].language_types.create! type_attributes
       @languages[ 1 ].language_types.create! other_type_attributes
       author = Author.create! author_attributes
       @languages[ 0 ].authors << author
