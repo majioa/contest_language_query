@@ -5,7 +5,13 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'shoulda-matchers'
 require 'database_cleaner'
+require 'capybara/rspec'
+require 'capybara/webkit/matchers'
 require 'pry'
+
+# this is required because of DB is disappeared in capybara specs
+require 'lib/db_disappear_patch'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -26,6 +32,7 @@ require 'pry'
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
+Capybara.javascript_driver = :webkit
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -50,4 +57,6 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  config.include(Capybara::Webkit::RspecMatchers, :type => :feature)
 end

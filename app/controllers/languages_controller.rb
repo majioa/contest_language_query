@@ -12,7 +12,9 @@ class LanguagesController < ApplicationController
   def filter
     @languages = Language.by_tokens_with_relations filter_tokens
 
-    render :index
+    respond_to do |format|
+      format.html { render :index }
+    end
   end
 
   private

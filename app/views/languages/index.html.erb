@@ -1,21 +1,11 @@
-<h1>Listing languages</h1>
+<%= form_tag '/filter', remote: true do %>
+  <h1>Enter the search filter</h1>
+  <%= label_tag :request, 'Request' %>
+  <%= text_field_tag :request, nil, size: 40 %>
+  <%= submit_tag 'Search', class: "btn btn-primary" %>
+<%- end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Designed by</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @languages.each do |language| %>
-      <tr>
-        <td><%= language.name %></td>
-        <td></td>
-        <td></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<h2>Language List</h2>
+<div id="result">
+  <%= render partial: 'shared/list', locals: { languages: @languages } %>
+</div>

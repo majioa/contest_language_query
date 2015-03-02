@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Germ</title>
+  <title>Sample Mini</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body data-sample-mini="yes">
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="/">Sample language filter project</a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
 
 <%= yield %>
 
+</div> <!-- /container -->
+
+<div id="sample-mini" title="sample mini"></div></body>
 </body>
 </html>
