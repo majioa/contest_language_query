@@ -11,8 +11,8 @@
     <% languages.each do |language| %>
       <tr>
         <td><%= language.name %></td>
-        <td></td>
-        <td></td>
+        <td><%= types( language ) %></td>
+        <td><%= authors( language ) %></td>
       </tr>
     <% end %>
   </tbody>
