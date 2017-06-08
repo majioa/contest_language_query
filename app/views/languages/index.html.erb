@@ -1,6 +1,6 @@
 <%= form_tag '/filter', remote: true do %>
   <h1>Enter the search filter</h1>
-  <%= label_tag :request, 'Request' %>
+  <%= label_tag :request, 'Request', id: 'request' %>
   <%= text_field_tag :request, nil, size: 40 %>
   <%= submit_tag 'Search', class: "btn btn-primary" %>
 <%- end %>

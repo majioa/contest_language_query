@@ -6,23 +6,22 @@ class Language < ActiveRecord::Base
 
   scope :by_token, ->( token ) { find_by_token( token ) }
 
-  scope :by_author_token, ->( token ) {
+  scope :by_author_token, ->( token ) do
     cross_find_by_token( token, self, Author, :languages_authors )
-  }
+  end
 
-  scope :by_language_type_token, ->( token ) {
+  scope :by_language_type_token, ->( token ) do
     cross_find_by_token( token, self, LanguageType, :languages_language_types )
-  }
+  end
 
-  scope :by_tokens_with_relations, ->( tokens ) {
+  scope :by_tokens_with_relations, ->( tokens ) do
     # enumerate method names to try search in
-    symbols = [ :by_author_token, :by_language_type_token, :by_token ]
+    symbols = %i(by_author_token by_language_type_token by_token)
 
     # enumerate token list to check at first positive value, then negative
     # then merge resulted queries
-    token_lists = separate_tokens( tokens ).reduce( {} ) do |q,tokens|
+    separate_tokens( tokens ).reduce( {} ) do |q,tokens|
       q.merge( catch_query( symbols - q.keys, tokens ) )
-    end.map {|(q,res)| res }.reduce( :& ).uniq
-  }
-
+    end.map {|(q,res)| res }.reduce( :& ).&uniq or none
+  end
 end

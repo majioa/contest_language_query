@@ -13,25 +13,25 @@
 
 ActiveRecord::Schema.define(version: 20150227092703) do
 
-  create_table "authors", force: true do |t|
+  create_table "authors", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "language_types", force: true do |t|
+  create_table "language_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "languages", force: true do |t|
+  create_table "languages", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "languages_authors", id: false, force: true do |t|
+  create_table "languages_authors", id: false, force: :cascade do |t|
     t.integer "language_id"
     t.integer "author_id"
   end
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20150227092703) do
   add_index "languages_authors", ["language_id", "author_id"], name: "languages_authors_index", unique: true
   add_index "languages_authors", ["language_id"], name: "index_languages_authors_on_language_id"
 
-  create_table "languages_language_types", id: false, force: true do |t|
+  create_table "languages_language_types", id: false, force: :cascade do |t|
     t.integer "language_id"
     t.integer "language_type_id"
   end
