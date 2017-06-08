@@ -22,7 +22,8 @@ feature 'User search for...' do
     visit root_path
 
     fill_in 'Request', with: '"Name Lastname" -Type1'
-    click_button 'Search'
+
+    wait_for_ajax
 
     expect( page ).to have_css 'td', 'New Lang'
     expect( page ).to have_no_text 'Other Lang'

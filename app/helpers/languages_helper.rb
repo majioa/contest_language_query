@@ -1,6 +1,7 @@
 module LanguagesHelper
-  def tokenize string
+  def tokenize string = ""
     # open quotes
+    string ||= ''
     unquoted = string.strip.split( /\s*"\s*/ )
     # split each unquoted token by a space (each odd)
     unquoted.map.with_index do |u, i|

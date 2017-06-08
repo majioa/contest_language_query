@@ -3,8 +3,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
   # You can have the root of your site routed with "root"
   get 'languages/' => 'languages#index'
-  get 'filter/' => 'languages#filter'
-  post 'filter/' => 'languages#filter'
+  post '/index' => 'languages#index'
 
   root 'languages#index'
 

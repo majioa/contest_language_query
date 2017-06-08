@@ -10,7 +10,8 @@ require 'capybara/webkit/matchers'
 require 'pry'
 
 # this is required because of DB is disappeared in capybara specs
-require 'lib/db_disappear_patch'
+require 'support/active_record'
+require 'support/wait_for_ajax'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -59,4 +60,5 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include(Capybara::Webkit::RspecMatchers, :type => :feature)
+  config.include(WaitForAjax, type: :feature)
 end

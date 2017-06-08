@@ -12,7 +12,7 @@ RSpec.describe LanguagesController, type: :routing do
     end
 
     it "routes to #filter" do
-      expect(:get => "/filter").to route_to("languages#filter")
+      expect(:post => "/index").to route_to("languages#index")
     end
 
   end

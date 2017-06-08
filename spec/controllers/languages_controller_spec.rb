@@ -34,41 +34,37 @@ RSpec.describe LanguagesController, type: :controller do
     end
   end
 
-  describe "GET #filter" do
+  describe "POST #filter" do
     before :each do
       @languages = Language.create! valid_attributes
     end
 
     it "sample request" do
-      get :filter, { request: 'New Lang' }, valid_session
+      post :index, { request: 'New Lang' }, valid_session
       expect( assigns( :languages ) ).to eq( @languages )
     end
 
-    it "omitted param :request" do
-      expect{ get :filter, {}, valid_session }.to raise_error ActionController::ParameterMissing
-    end
-
     it "reversed words request" do
-      get :filter, { request: 'Lang New' }, valid_session
+      post :index, { request: 'Lang New' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 0 ] ] )
     end
 
     it "match for author 'Name Lastname'" do
       @languages[1].authors.create! author_attributes
-      get :filter, { request: 'Other Lango "Name Lastname"' }, valid_session
+      post :index, { request: 'Other Lango "Name Lastname"' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 1 ] ] )
     end
 
     it "match for type 'Type'" do
       @languages[1].language_types.create! type_attributes
-      get :filter, { request: '"Other Lango" Type' }, valid_session
+      post :index, { request: '"Other Lango" Type' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 1 ] ] )
     end
 
     it "match for author 'Name Lastname', and type 'Type'" do
       @languages[0].authors.create! author_attributes
       @languages[0].language_types.create! type_attributes
-      get :filter, { request: '"Name Lastname" Type' }, valid_session
+      post :index, { request: '"Name Lastname" Type' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 0 ] ] )
     end
 
@@ -79,7 +75,7 @@ RSpec.describe LanguagesController, type: :controller do
       author = Author.create! author_attributes
       @languages[ 0 ].authors << author
       @languages[ 1 ].authors << author
-      get :filter, { request: '"Name Lastname" -Type1' }, valid_session
+      post :index, { request: '"Name Lastname" -Type1' }, valid_session
       expect( assigns( :languages ) ).to eq( [ @languages[ 0 ] ] )
     end
 

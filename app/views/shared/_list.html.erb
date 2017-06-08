@@ -1,19 +1,21 @@
-<table>
-  <thead>
-    <tr>
-      <th width="100">Name</th>
-      <th width="550">Type</th>
-      <th>Designed by</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% languages.each do |language| %>
+<div id="result">
+  <table>
+    <thead>
       <tr>
-        <td><%= language.name %></td>
-        <td><%= types( language ) %></td>
-        <td><%= authors( language ) %></td>
+        <th width="100">Name</th>
+        <th width="550">Type</th>
+        <th>Designed by</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% languages.each do |language| %>
+        <tr>
+          <td><%= language.name %></td>
+          <td><%= types( language ) %></td>
+          <td><%= authors( language ) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

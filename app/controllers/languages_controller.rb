@@ -2,29 +2,23 @@ class LanguagesController < ApplicationController
   include LanguagesHelper
 
   # GET /languages
-  # GET /languages.json
   def index
-    @languages = Language.all
-  end
-
-  # GET /filter
-  # GET /filter.json
-  def filter
-    @languages = Language.by_tokens_with_relations filter_tokens
+    tokens = filter_tokens
+    @languages = tokens.blank? && Language.all || Language.by_tokens_with_relations( filter_tokens )
 
     respond_to do |format|
       format.html { render :index }
+      format.js
     end
   end
 
-  private
+  protected
 
   def filter_params
-    params.require(:request)
-    params.permit(:request)
+    params.permit( :request )
   end
 
   def filter_tokens
-    tokenize filter_params.to_h[ 'request' ]
+    tokenize( filter_params.to_h[ 'request' ] )
   end
 end
